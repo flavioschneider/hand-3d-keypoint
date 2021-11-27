@@ -1,0 +1,27 @@
+# @package _global_
+
+defaults:
+  - trainer: default_trainer.yaml
+  - model: default_model.yaml
+  - datamodule: default_datamodule.yaml 
+  - callbacks: default_callbacks.yaml
+  - logger: null 
+  - experiment: null
+
+# Useful directories 
+work_dir: ${hydra:runtime.cwd}  # This is the root of the project
+data_dir: ${oc.env:MP_DATA}     # This is the directory where the data is stored (read from .env)
+logs_dir: ${oc.env:DIR_SCRATCH}/logs  # This is the root for all logs
+ckpts_dir: ${logs_dir}/ckpts    # Here we save checkpoitns
+preds_dir: ${logs_dir}/preds    # here we save the test predictions 
+
+# Useful configs 
+debug: False # This uses pytorch-lighning fast_dev_run, if set to True
+print_config: True # Pretty prints configs at the start of run, if set to True
+disable_warnings: False # Disables python warnings, if set to True
+test: False # Run the model only on the test set, must include +model.checkpoint_path=path, if set to True.
+
+# Settings: output paths for hydra logs, every run will save all config used.
+hydra:
+  run:
+    dir: ${logs_dir}/runs/${now:%Y-%m-%d}/${now:%H-%M-%S}

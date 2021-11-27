@@ -1,0 +1,8 @@
+defaults:
+  - loss: mse.yaml
+  - architecture: graphpose.yaml
+
+_target_: src.models.lifted_model.LiftedModel
+dir_preds_test: ${preds_dir}/${now:%Y-%m-%d}/${now:%H-%M-%S}
+lr: 0.001
+use_scheduler: False

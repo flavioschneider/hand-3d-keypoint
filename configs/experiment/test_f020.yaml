@@ -1,0 +1,52 @@
+# @package _global_
+defaults:
+  - override /model: default_model.yaml
+  - override /model/architecture: efflitepose.yaml
+  - override /model/loss: mse.yaml            # Overriding loss config file 
+  - override /logger: wandb.yaml              # Overring logger config file
+  # Color logging 
+  - override /hydra/hydra_logging: colorlog
+  - override /hydra/job_logging: colorlog 
+
+seed: 12345
+test_on_best: True 
+heatmap_size: 112
+
+trainer: 
+  gpus: 1
+  max_epochs: 500
+
+model:
+  _target_: src.models.default_model.DefaultModel.load_from_checkpoint
+  architecture: 
+    encoder_name: efficientnet-b6
+  lr: 0.0001
+
+datamodule:
+  batch_size: 16
+  num_workers: 4
+  transforms_train_pair:
+    _target_: src.datamodules.transforms.transforms.Compose
+    transforms: 
+      - _target_: src.datamodules.transforms.transforms.RandomRotation
+        degrees: 180  
+
+callbacks:
+  hand_2d_logger:
+    _target_: src.callbacks.wandb_callbacks.Hand2DLogger
+    log_n_samples: 8
+    log_every_n_steps: 1000
+
+  hand_3d_logger:
+    _target_: src.callbacks.wandb_callbacks.Hand3DLogger
+    log_n_samples: 3
+    log_every_n_steps: 1000
+
+  heatmap_1d_logger:
+    _target_: src.callbacks.wandb_callbacks.Heatmap1DLogger
+    log_n_samples: 3
+    log_every_n_steps: 1000
+  
+  test_result_file_logger:
+      _target_: src.callbacks.wandb_callbacks.TestResultFileLogger
+      

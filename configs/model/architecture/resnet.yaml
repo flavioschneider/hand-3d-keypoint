@@ -1,0 +1,3 @@
+_target_: src.models.architectures.resnet.ResNet
+model_name: resnet18
+output_dim: 63

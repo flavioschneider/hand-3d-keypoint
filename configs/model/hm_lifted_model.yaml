@@ -1,0 +1,6 @@
+defaults:
+  - loss: mse.yaml
+
+_target_: src.models.hm_lifted_model.HMLiftedModel
+dir_preds_test: ${preds_dir}/${now:%Y-%m-%d}/${now:%H-%M-%S}
+use_scheduler: False

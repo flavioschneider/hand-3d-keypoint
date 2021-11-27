@@ -1,0 +1,23 @@
+matplotlib==3.3.4
+easydict==1.9
+opencv-python==4.5.1.48
+tqdm==4.60.0
+numpy==1.20.2
+comet_ml==3.7.0
+hydra-colorlog==1.1.0.dev1
+hydra-core==1.1.0.dev5
+python-dotenv==0.16.0
+pytorch_lightning==1.2.5
+data-science-types==0.2.12
+torch==1.8.1
+torchtext== 0.9.1
+torchvision==0.9.1
+torchmetrics==0.3.2
+rich==10.0.1
+jupyterlab==3.0.15
+notebook==6.3.0 
+wandb>=0.10.30 
+plotly==4.14.3
+scipy==1.6.3
+efficientnet_pytorch==0.7.1
+pandas==1.2.4

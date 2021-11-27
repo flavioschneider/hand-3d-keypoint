@@ -1,0 +1,25 @@
+# @package _global_
+
+defaults:
+  - override /model/architecture: resnet.yaml # Overring architecture config file
+  - override /model/loss: mse.yaml            # Overriding loss config file 
+  - override /logger: wandb.yaml              # Overring logger config file
+  - override /callbacks: wandb.yaml           # Override callbacks
+  # Color logging 
+  - override /hydra/hydra_logging: colorlog
+  - override /hydra/job_logging: colorlog 
+
+seed: 12345
+test_on_best: True 
+
+trainer: 
+  gpus: 1
+  max_epochs: 500
+
+model:
+  lr: 0.001
+  architecture:
+    model_name: resnet18
+
+datamodule:
+  batch_size: 32

@@ -1,0 +1,23 @@
+_target_: src.datamodules.default_datamodule.DefaultDataModule
+data_dir: ${data_dir}  # data_dir is specified in config.yaml
+batch_size: 32
+train_val_split: [91168, 19536]
+num_workers: 0
+pin_memory: False
+is_debugging: False 
+
+transforms_train:
+  _target_: torchvision.transforms.Compose 
+  transforms: 
+    - _target_: torchvision.transforms.ToTensor
+
+
+transforms_test:
+  _target_: torchvision.transforms.Compose 
+  transforms: 
+    - _target_: torchvision.transforms.ToTensor
+
+
+
+
+

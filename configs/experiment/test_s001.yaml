@@ -1,0 +1,32 @@
+# @package _global_
+defaults:
+  - override /model: default_model.yaml
+  - override /model/architecture: repose.yaml
+  - override /model/loss: mse.yaml            # Overriding loss config file 
+  - override /logger: wandb.yaml              # Overring logger config file
+  - override /callbacks: wandb.yaml           # Override callbacks
+  # Color logging 
+  - override /hydra/hydra_logging: colorlog
+  - override /hydra/job_logging: colorlog 
+
+seed: 12345
+test_on_best: True 
+test: True 
+heatmap_size: 56
+
+trainer: 
+  gpus: 1
+  max_epochs: 500
+
+model:
+  _target_: src.models.default_model.DefaultModel.load_from_checkpoint
+  architecture: 
+    encoder_name: resnet101
+    to_kp3d: True 
+    decoder_soft_argmax_alpha : 1
+  lr: 0.0001
+
+datamodule:
+  batch_size: 8 
+
+

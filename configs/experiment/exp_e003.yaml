@@ -1,0 +1,68 @@
+# @package _global_
+defaults:
+  - override /model: default_model.yaml
+  - override /model/architecture: effpose.yaml
+  - override /model/loss: mse.yaml            # Overriding loss config file 
+  - override /logger: wandb.yaml              # Overring logger config file
+  # Color logging 
+  - override /hydra/hydra_logging: colorlog
+  - override /hydra/job_logging: colorlog 
+
+seed: 12345
+test_on_best: True 
+heatmap_size: 112
+
+trainer: 
+  gpus: 1
+  max_epochs: 500
+
+model:
+  use_normalize: False 
+  architecture: 
+    encoder_name: efficientnet-b6
+  lr: 0.0001
+
+datamodule:
+  batch_size: 16
+  num_workers: 4
+
+  transforms_train_pair:
+    _target_: src.datamodules.transforms.transforms.Compose
+    transforms: 
+      - _target_: src.datamodules.transforms.transforms.RandomHorizontalFlip
+        p: 0.5
+      - _target_: src.datamodules.transforms.transforms.RandomVerticalFlip
+        p: 0.5
+      - _target_: src.datamodules.transforms.transforms.RandomScale
+        scale_range:
+          - 0.8
+          - 1.2
+      - _target_: src.datamodules.transforms.transforms.RandomTranslation
+        horizontal: 20
+        vertical: 20
+      - _target_: src.datamodules.transforms.transforms.RandomRotation
+        degrees: 180  
+      - _target_: src.datamodules.transforms.transforms.ColorJitter
+        brightness: 0.1
+        contrast: 0.1
+
+
+callbacks:
+  hand_2d_logger:
+    _target_: src.callbacks.wandb_callbacks.Hand2DLogger
+    log_n_samples: 8
+    log_every_n_steps: 1000
+
+  hand_3d_logger:
+    _target_: src.callbacks.wandb_callbacks.Hand3DLogger
+    log_n_samples: 3
+    log_every_n_steps: 1000
+
+  heatmap_1d_logger:
+    _target_: src.callbacks.wandb_callbacks.Heatmap1DLogger
+    log_n_samples: 3
+    log_every_n_steps: 1000
+  
+  test_result_file_logger:
+      _target_: src.callbacks.wandb_callbacks.TestResultFileLogger
+      

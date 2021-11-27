@@ -1,0 +1,9 @@
+defaults:
+  - loss: mse.yaml
+  - architecture: resnet.yaml
+
+_target_: src.models.default_model.DefaultModel
+dir_preds_test: ${preds_dir}/${now:%Y-%m-%d}/${now:%H-%M-%S}
+lr: 0.001
+use_scheduler: False
+heatmap_size: ${heatmap_size} 

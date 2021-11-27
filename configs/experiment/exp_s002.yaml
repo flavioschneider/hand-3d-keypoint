@@ -1,0 +1,28 @@
+# @package _global_
+defaults:
+  - override /model: default_model.yaml
+  - override /model/architecture: effpose.yaml
+  - override /model/loss: mse.yaml            # Overriding loss config file 
+  - override /logger: wandb.yaml              # Overring logger config file
+  - override /callbacks: wandb.yaml           # Override callbacks
+  # Color logging 
+  - override /hydra/hydra_logging: colorlog
+  - override /hydra/job_logging: colorlog 
+
+seed: 12345
+test_on_best: True 
+heatmap_size: 224
+
+trainer: 
+  gpus: 1
+  max_epochs: 500
+
+model:
+  architecture: 
+    encoder_name: efficientnet-b6
+    to_kp3d: True 
+  lr: 0.0001
+
+datamodule:
+  batch_size: 8 
+

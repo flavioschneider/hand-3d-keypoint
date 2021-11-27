@@ -1,0 +1,15 @@
+defaults:
+    - default_callbacks.yaml
+
+hand_2d_logger:
+    _target_: src.callbacks.wandb_callbacks.Hand2DLogger
+    log_n_samples: 8
+    log_every_n_steps: 1000
+
+hand_3d_logger:
+    _target_: src.callbacks.wandb_callbacks.Hand3DLogger
+    log_n_samples: 3
+    log_every_n_steps: 1000
+
+test_result_file_logger:
+    _target_: src.callbacks.wandb_callbacks.TestResultFileLogger
